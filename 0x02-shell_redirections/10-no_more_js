@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -find d -name *.js delele
+find . -find d -name *.js delete

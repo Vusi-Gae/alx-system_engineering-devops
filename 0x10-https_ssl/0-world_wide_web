@@ -1,21 +1,12 @@
 #!/usr/bin/env bash
+# print domains and subdomains
 
-# Function to print domain and subdomain information
 print_domain_subdomain () {
-    local result=$(dig "$1" +short)
-    local subdomain=$2
-    local ip_address=$(echo "$result" | head -n1)
-
-    if [ -z "$ip_address" ]; then
-        echo "No record found for $subdomain"
-    else
-        local record_type=$(dig "$1" | awk '/ANSWER SECTION/ {getline; print $4}')
-        echo "The subdomain $subdomain is a $record_type record and points to $ip_address"
-    fi
+    dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F" " ' NR==2 { print "The subdomain " $1 " is a " $4 " record and points to " $5 }'
 }
 
-# Check the number of arguments
-if [ "$#" -eq 2 ]; then
+if [ "$#" -eq 2 ]
+then
     print_domain_subdomain "$2.$1" "$2"
 else
     print_domain_subdomain "www.$1" "www"

@@ -1,7 +1,7 @@
 #!/usr/bin/ evn bash
 #using puppet to make cahnges to our configuration file
 
-file { '/ssh/ssh_config':
+file { '/0x0B-ssh/2-ssh_config':
 	ensure => present,
 
 content =>"
